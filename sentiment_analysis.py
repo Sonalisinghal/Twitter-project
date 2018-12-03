@@ -1,35 +1,59 @@
-#Sentiment analysis
+'''Creates a Pandas dataframe to fetch relevant data and 
+add subjectivity and polarity to each tweet'''
 from pymongo import MongoClient
 from textblob import TextBlob
 import pandas as pd
-
+import re
+import matplotlib.pyplot as plt
 
 client = MongoClient('mongodb://localhost/twitterdb')
 db=client.twitterdb
+#collections = [trump_tweets,trump_replies,elon_tweets,elon_replies]
 
-#collections=['trump_tweets','trump_replies','elon_tweets','elon_replies']
-#create data
-cursor = db['trump_tweets'].find({},{'created_at':1,'id_str':1,'text':1,'in_reply_to_status_id_str':1,'user.location':1})
-print(list(db['trump_replies'].find({},{'user.location':1})))
-df =  pd.DataFrame(list(cursor))
-#print(df['entities'])
+#create dataframes
+#for Trump and Elon Tweets
+cursor1 = db['trump_tweets'].find({},{'created_at':1,'id_str':1,'text':1})
+df_trump_tweets =  pd.DataFrame(list(cursor1))
+cursor2 = db['elon_tweets'].find({},{'created_at':1,'id_str':1,'text':1})
+df_elon_tweets =  pd.DataFrame(list(cursor2))
 
-# trump_tweets=api.search('Trump')
-# for t in trump_tweets:
-# 	print(t.text)
-# 	analysis=TextBlob(t.text)
-# 	print(analysis.sentiment)
+# For replies, added 'in_reply_to_status_id_str' and 'user location'
+cursor3 = db['trump_replies'].find({},{'created_at':1,'id_str':1,'text':1,'in_reply_to_status_id_str':1,'user.name':1,'user.location':1})
+df_trump_replies =  pd.DataFrame(list(cursor3))
+cursor4 = db['elon_replies'].find({},{'created_at':1,'id_str':1,'text':1,'in_reply_to_status_id_str':1,'user.name':1,'user.location':1})
+df_elon_replies =  pd.DataFrame(list(cursor4))
+
+#Append sentiment analysis 
+#Cleans tweet text by removing links, special characters - using regex statements.
+def clean_tweet(tweet):
+	return ' '.join(re.sub("([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
+	#taken from https://gist.github.com/eledroos/efbe501f359d9791019b19e9ea9d60b6
+
+def add_analysis(df):
+	clean_tweets_list=[]
+	subjectivity_list=[]
+	polarity_list=[]
+	for tweet in df['text']:
+		tweetnew=clean_tweet(str(tweet))		   #clean the tweet
+		clean_tweets_list.append(tweetnew)      #Append the clean tweet to a list
+		analysis=TextBlob(tweetnew)       #Analyse the sentiment of the clean tweet
+		subjectivity_list.append(analysis.sentiment.subjectivity)   
+		polarity_list.append(analysis.sentiment.polarity)
+	df_new = pd.DataFrame({'id_str': df['id_str'],'processed_tweet': clean_tweets_list,'subjectivity': subjectivity_list,'polarity': polarity_list})
+	return pd.DataFrame.merge(df,df_new)
+
+df_trump_tweets=add_analysis(df_trump_tweets)
+df_elon_tweets=add_analysis(df_elon_tweets)
+df_trump_replies=add_analysis(df_trump_replies)
+df_elon_replies=add_analysis(df_elon_replies)
 
 
 
+#Word Cloud
 
+#Spatial analysis
 
-
-
-
-
-
-
+#Temporal analysis
 
 #Some ideas
 #sentiment analysis text blob and matplotlib
