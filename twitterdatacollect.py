@@ -12,7 +12,7 @@ auth = AppAuthHandler(consumer_key, consumer_secret) #To increase the rate of qu
 api = tweepy.API(auth, wait_on_rate_limit=True,wait_on_rate_limit_notify=True)
 
 if (not api): #Error handling
-    print ("Problem connecting to API")
+	print ("Problem connecting to API")
 
 #Connect to Mongodb
 client = MongoClient('mongodb://localhost/twitterdb')  #assuming there is already a database called twitterdb
