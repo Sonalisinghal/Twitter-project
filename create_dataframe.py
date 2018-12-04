@@ -50,19 +50,6 @@ df_elon_replies=add_analysis(df_elon_replies)
 dataToStore = [df_trump_tweets, df_elon_tweets, df_trump_replies, df_elon_replies]
 with open("data.pickle", "wb") as f:
 	pickle.dump(dataToStore, f)
-	
-# for collection in list_collections:
-# 	print(collection)
-# 	for tweet in db[collection].find():
-# 		tweetnew=clean_tweet(str(tweet['text']))
-# 		analysis=TextBlob(tweetnew)
-# 		subj=analysis.sentiment.subjectivity
-# 		pol=analysis.sentiment.polarity
-# 		#print(tweetnew,pol,subj)
-# 		db[collection].updateOne(
-# 			{'_id': tweet['_id']},
-# 			{'$set': {'clean_tweet': tweetnew,'polarity': pol,'subjectivity': subj}})
-
 
 #Word Cloud
 
