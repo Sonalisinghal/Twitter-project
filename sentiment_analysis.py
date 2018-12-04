@@ -3,15 +3,15 @@ add subjectivity and polarity to each tweet'''
 from pymongo import MongoClient
 from textblob import TextBlob
 import pandas as pd
-import re
-import matplotlib.pyplot as plt
+import re, pickle
 
-client = MongoClient('mongodb://localhost/twitterdb')
-db=client.twitterdb
-#collections = [trump_tweets,trump_replies,elon_tweets,elon_replies]
+client = MongoClient('mongodb://localhost/twitterdb_copy')
+db=client.twitterdb_copy
+#list_collections = ['trump_tweets','trump_replies','elon_tweets','elon_replies']
 
 #create dataframes
 #for Trump and Elon Tweets
+#if __name__==__main__:
 cursor1 = db['trump_tweets'].find({},{'created_at':1,'id_str':1,'text':1})
 df_trump_tweets =  pd.DataFrame(list(cursor1))
 cursor2 = db['elon_tweets'].find({},{'created_at':1,'id_str':1,'text':1})
@@ -47,6 +47,21 @@ df_elon_tweets=add_analysis(df_elon_tweets)
 df_trump_replies=add_analysis(df_trump_replies)
 df_elon_replies=add_analysis(df_elon_replies)
 
+dataToStore = [df_trump_tweets, df_elon_tweets, df_trump_replies, df_elon_replies]
+with open("data.pickle", "wb") as f:
+	pickle.dump(dataToStore, f)
+	
+# for collection in list_collections:
+# 	print(collection)
+# 	for tweet in db[collection].find():
+# 		tweetnew=clean_tweet(str(tweet['text']))
+# 		analysis=TextBlob(tweetnew)
+# 		subj=analysis.sentiment.subjectivity
+# 		pol=analysis.sentiment.polarity
+# 		#print(tweetnew,pol,subj)
+# 		db[collection].updateOne(
+# 			{'_id': tweet['_id']},
+# 			{'$set': {'clean_tweet': tweetnew,'polarity': pol,'subjectivity': subj}})
 
 
 #Word Cloud
