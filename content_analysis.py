@@ -1,7 +1,7 @@
 from load_pickle import df_trump_tweets as tt, df_trump_replies as tr, df_elon_tweets as et, df_elon_replies as er
 from wordcloud import WordCloud, STOPWORDS 
 import matplotlib.pyplot as plt 
-
+%matplotlib qt
   
 tweetListtrump=list(tt['processed_tweet'])+list(tr['processed_tweet'])
 tweetlistelon=list(et['processed_tweet'])+list(er['processed_tweet'])
