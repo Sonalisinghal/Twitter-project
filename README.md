@@ -13,6 +13,10 @@ Use `pip` to install the following packages:
 * matplotlib
 * pandas
 * pycountry
+* dateutil
+* pickle
+* pymongo
+* re
 
 
 ## Data Collection
