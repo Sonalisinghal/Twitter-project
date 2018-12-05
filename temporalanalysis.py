@@ -2,8 +2,6 @@ import plotly.plotly as py
 import plotly.graph_objs as go 
 from dateutil.parser import parse
 from load_pickle import df_trump_tweets as tt, df_trump_replies as tr, df_elon_tweets as et, df_elon_replies as er
-
-print(et['created_at'])
 def get_time_occurance(l):
     date_dict={}
     for d in l:
