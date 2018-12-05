@@ -1,14 +1,31 @@
-# Project- Sentiment analysis of Tweets
-A sentiment analysis which uses tweets made by Donald J. trump and Elon Musk, and the replies to those. This project was done as a part of selction process for Precog- research group at IIITD.
+# Tweet Analyser
 
-## Data collection
-twitterdatacollect.py is used for collecting the data required for sentiment analysis. 
-The get_reply function collects the replies for each tweet made by the given user with specified tweet_id (is a unique integer identifying the tweet) and stores all the data in a mongodb databse, twitterdb.
+```NOTE: This is Developer Version (Please do not share with anyone without removing API Keys)```
+
+Python Version 3.6.3
+MongoDB Version v4.0.4
 
 ## Requirements
-The libraries for twitterdatacollect.py are: 
-* `tweepy`
-* `pymongo`
+Use `pip` to install the following packages: 
+* textblob
+* plotly
+* wordcloud
+* matplotlib
+* pandas
+* pycountry
 
 
-##
+## Data Collection
+* Import the mongoDB dump (`mongorestore`)
+* The Script used for the creation of this Database can be found at `twitterdatacollect.py`
+
+## Plots
+All the plots have been added in the Jupyter Notebook. Kindly run the command `jupyter notebook` and access the file TwitterAnalysis.ipynb
+
+## Folder Structure
+* `misc` contains all the individual python scripts that were eventually combined to form the Jupyter Notebook
+* `twitterdatacollect.py` was used to create the database
+* `create_dataframes.py` was used to create dataframes of the relevant data collected in MongoDb
+* `load_pickle.py` Use this to import the dataframes to any given file
+* `TwitterAnalysis.ipynb` is the jupyter notebook used for displaying all the analysis
+* `countrycodes.csv` contains countries and their codes used for plotting for spacial analysis
