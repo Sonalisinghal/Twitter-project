@@ -7,17 +7,17 @@ MongoDB Version v4.0.4
 
 ## Requirements
 Use `pip` to install the following packages: 
+* tweepy
+* pymongo
+* pandas
+* pickle
+* re
 * textblob
 * plotly
 * wordcloud
 * matplotlib
-* pandas
 * pycountry
 * dateutil
-* pickle
-* pymongo
-* re
-
 
 ## Data Collection
 * Import the mongoDB dump (`mongorestore`)
@@ -32,4 +32,5 @@ All the plots have been added in the Jupyter Notebook. Kindly run the command `j
 * `create_dataframes.py` was used to create dataframes of the relevant data collected in MongoDb
 * `load_pickle.py` Use this to import the dataframes to any given file
 * `TwitterAnalysis.ipynb` is the jupyter notebook used for displaying all the analysis
+* `TwitterAnalysis.html` is the html file for the same
 * `countrycodes.csv` contains countries and their codes used for plotting for spacial analysis
